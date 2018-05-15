@@ -64,15 +64,21 @@ public class LoginActivity extends Activity implements View.OnClickListener {
 
         //两个动画按钮
         final TitanicTextView mTvStartGame = (TitanicTextView) findViewById(R.id.startGame);
+        final TitanicTextView mTvStartTimerGame = (TitanicTextView) findViewById(R.id.startTimerGame);
+        final TitanicTextView mTvStartPropGame = (TitanicTextView)findViewById(R.id.startPropGame);
         final TitanicTextView mTvStartCharts = (TitanicTextView) findViewById(R.id.startCharts);
 
         //设置点击监听
         mTvStartCharts.setOnClickListener(this);
         mTvStartGame.setOnClickListener(this);
+        mTvStartTimerGame.setOnClickListener(this);
+        mTvStartPropGame.setOnClickListener(this);
 
         //先隐藏了
         mTvStartGame.setVisibility(View.INVISIBLE);
         mTvStartCharts.setVisibility(View.INVISIBLE);
+        mTvStartTimerGame.setVisibility(View.INVISIBLE);
+        mTvStartPropGame.setVisibility(View.INVISIBLE);
 
         //开启动画
 
@@ -82,6 +88,10 @@ public class LoginActivity extends Activity implements View.OnClickListener {
         startGameAnim.start(mTvStartGame);
         Titanic startChartsAnim = new Titanic();
         startChartsAnim.start(mTvStartCharts);
+        Titanic startTimerGameAnim = new Titanic();
+        startTimerGameAnim.start(mTvStartTimerGame);
+        Titanic startPropGameAnim = new Titanic();
+        startPropGameAnim.start(mTvStartPropGame);
 
         //进度条
         final ProgressBar bnp = (ProgressBar) findViewById(R.id.progress_bar);
@@ -107,10 +117,12 @@ public class LoginActivity extends Activity implements View.OnClickListener {
                             //设置progress样式
                             bnp.setProgress(0);
                             counter = 0;
-                            //隐藏进度条   显示两个按钮
+                            //隐藏进度条   显示按钮
                             bnp.setVisibility(View.INVISIBLE);
                             mTvStartCharts.setVisibility(View.VISIBLE);
                             mTvStartGame.setVisibility(View.VISIBLE);
+                            mTvStartTimerGame.setVisibility(View.VISIBLE);
+                            mTvStartPropGame.setVisibility(View.VISIBLE);
                         }
                     }
                 });
@@ -156,6 +168,16 @@ public class LoginActivity extends Activity implements View.OnClickListener {
             case R.id.startGame:
 //                Toast.makeText(this, "开始游戏", Toast.LENGTH_SHORT).show();
                 next = new Intent(this, MainActivity.class);
+                startActivity(next);
+                finish();
+                break;
+            case R.id.startTimerGame:
+                next = new Intent(this,MainActivity.class);
+                startActivity(next);
+                finish();
+                break;
+            case R.id.startPropGame:
+                next = new Intent(this,MainActivity.class);
                 startActivity(next);
                 finish();
                 break;

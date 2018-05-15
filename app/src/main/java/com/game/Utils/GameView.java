@@ -164,6 +164,10 @@ public class GameView extends LinearLayout {
             MainFragment.getMainFragment().getAnimLayer()
                     .createScaleTo1(cardsMap[p.x][p.y]);
         }
+
+        Card c = new Card(getContext());
+        addView(c);
+        removeView(c);
     }
 
     //向左移动
