@@ -40,20 +40,8 @@
             android:layout_height="wrap_content" />
     </LinearLayout>
 
-    <com.daimajia.numberprogressbar.NumberProgressBar
-        android:layout_marginBottom="100dp"
-        android:layout_alignParentBottom="true"
-        android:layout_centerInParent="true"
-        android:layout_marginLeft="30dp"
-        android:layout_marginRight="30dp"
-        style="@style/NumberProgressBar_Default"
-        custom:progress_text_size="30sp"
-        custom:progress_text_color="@color/google_blue"
-        custom:progress_text_offset="1dp"
-        custom:progress_text_visibility="visible"
-        custom:max="100"
-        custom:progress="0"
-        android:id="@+id/number_progress_bar"
+    <ProgressBar
+        android:id="@+id/progress_bar"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
 

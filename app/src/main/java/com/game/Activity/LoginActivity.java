@@ -10,6 +10,7 @@ import android.os.Bundle;
 import android.os.IBinder;
 import android.view.KeyEvent;
 import android.view.View;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.daimajia.numberprogressbar.NumberProgressBar;
@@ -83,7 +84,7 @@ public class LoginActivity extends Activity implements View.OnClickListener {
         startChartsAnim.start(mTvStartCharts);
 
         //进度条
-        final NumberProgressBar bnp = (NumberProgressBar) findViewById(R.id.number_progress_bar);
+        final ProgressBar bnp = (ProgressBar) findViewById(R.id.progress_bar);
 
         //开始加载
         counter = 0;

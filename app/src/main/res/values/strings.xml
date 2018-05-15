@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <string name="app_name">游戏2048</string>
+    <string name="app_name">game2048</string>
     <string name="score">Score</string>
     <string name="best_score">Max Score</string>
     <string name="new_game">重新开始</string>
