@@ -41,17 +41,13 @@ public class GameView extends LinearLayout {
 
     //初始化Gameview
     private void initGameView() {
-
         setOrientation(LinearLayout.VERTICAL);
         setBackgroundColor(0xffbbada0);
         setOnTouchListener(new OnTouchListener() {
 
-            private float startX
-                    ,
-                    startY
-                    ,
-                    offsetX
-                    ,
+            private float startX,
+                    startY,
+                    offsetX,
                     offsetY;
 
             @Override
@@ -63,6 +59,7 @@ public class GameView extends LinearLayout {
                         startY = event.getY();
                         break;
                     case MotionEvent.ACTION_UP:
+                        v.performClick();
                         offsetX = event.getX() - startX;
                         offsetY = event.getY() - startY;
 
@@ -136,6 +133,7 @@ public class GameView extends LinearLayout {
         for (int y = 0; y < Config.LINES; y++) {
             for (int x = 0; x < Config.LINES; x++) {
                 cardsMap[x][y].setNum(0);
+                cardsMap[x][y].requestLayout();
             }
         }
 
@@ -164,15 +162,10 @@ public class GameView extends LinearLayout {
             MainFragment.getMainFragment().getAnimLayer()
                     .createScaleTo1(cardsMap[p.x][p.y]);
         }
-
-        Card c = new Card(getContext());
-        addView(c);
-        removeView(c);
     }
 
     //向左移动
     private void swipeLeft() {
-
 
         boolean merge = false;
 
@@ -225,7 +218,6 @@ public class GameView extends LinearLayout {
     //向右移动
     private void swipeRight() {
 
-
         boolean merge = false;
 
         for (int y = 0; y < Config.LINES; y++) {
@@ -272,7 +264,6 @@ public class GameView extends LinearLayout {
 
     //向上移动
     private void swipeUp() {
-
 
         boolean merge = false;
 
@@ -396,5 +387,4 @@ public class GameView extends LinearLayout {
             DialogUtils.getAddChartDialog(context, MainFragment.getMainFragment().getScore());
         }
     }
-
 }

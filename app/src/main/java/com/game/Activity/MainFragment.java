@@ -1,14 +1,18 @@
 package com.game.Activity;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.game.Model.Card;
 import com.game.R;
 import com.game.Utils.AnimLayer;
 import com.game.Utils.GameView;
@@ -21,9 +25,11 @@ public class MainFragment extends Fragment {
     private GameView gameView;
     private AnimLayer animLayer = null;
     public static final String SP_KEY_BEST_SCORE = "bestScore";
+    public Tool tool;
 
 
     public static MainFragment mainFragment;
+    private boolean showBorder = false;
 
     public MainFragment() {
         mainFragment = this;
@@ -49,6 +55,8 @@ public class MainFragment extends Fragment {
         gameView = (GameView) rootView.findViewById(R.id.gameView);
 
         animLayer = (AnimLayer) rootView.findViewById(R.id.animLayer);
+
+        tool = new Tool((Button) rootView.findViewById(R.id.button_doubleNumber), (Button) rootView.findViewById(R.id.button_removeNumber), (Button) rootView.findViewById(R.id.button_makeChaos));
 
         return rootView;
     }
@@ -105,6 +113,63 @@ public class MainFragment extends Fragment {
 
     public int getScore() {
         return score;
+    }
+
+    public boolean getShowBorder() {
+        return showBorder;
+    }
+
+    public void askConfirm(final Card card) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+        builder.setTitle("确认信息").setMessage("确定将当前各自中的数字翻倍吗？")
+                .setPositiveButton("确认", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        card.setNum(card.getNum() * 2);
+                        card.afterSelect();
+                        showBorder = false;
+                    }
+                }).setNegativeButton("返回", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                card.afterSelect();
+                dialogInterface.dismiss();
+            }
+        }).show();
+    }
+
+    class Tool {
+        Button dN, rN, mC;
+
+        public Tool(Button dN, Button rN, Button mC) {
+            this.dN = dN;
+            this.rN = rN;
+            this.mC = mC;
+            init();
+        }
+
+        private void init() {
+            dN.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    showBorder = true;
+                }
+            });
+
+            rN.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    showBorder = true;
+                }
+            });
+
+            mC.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+
+                }
+            });
+        }
     }
 
 }

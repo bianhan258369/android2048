@@ -1,25 +1,108 @@
 package com.game.Model;
 
 import android.content.Context;
+import android.graphics.drawable.ColorDrawable;
+import android.graphics.drawable.Drawable;
+import android.graphics.drawable.GradientDrawable;
 import android.text.TextPaint;
+import android.view.GestureDetector;
 import android.view.Gravity;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.TextView;
 
+import com.game.Activity.MainActivity;
+import com.game.Activity.MainFragment;
 import com.game.R;
+import com.game.Utils.GameView;
 
 public class Card extends FrameLayout {
 
+    private ColorDrawable curBackground;
+    private MainFragment mainFragment;
     private TextView label;
-    private View background;
     private int num = 0;
+    private GestureDetector gestureDetector = new GestureDetector(getContext(), (GestureDetector.OnGestureListener) new DoubleTap(this));
+
+    public void afterSelect() {
+        label.setBackground(curBackground);
+    }
+
+    private class DoubleTap implements GestureDetector.OnGestureListener, GestureDetector.OnDoubleTapListener{
+        Card card;
+
+        DoubleTap(Card cur){
+            card = cur;
+        }
+
+        @Override
+        public boolean onSingleTapConfirmed(MotionEvent motionEvent) {
+            return false;
+        }
+
+        @Override
+        public boolean onDoubleTap(MotionEvent motionEvent) {
+            if (mainFragment.getShowBorder() && getNum() > 0){
+                curBackground = (ColorDrawable)label.getBackground();
+                GradientDrawable selected_background = (GradientDrawable) getResources().getDrawable(R.drawable.selected_border);
+                selected_background.setColor(curBackground.getColor());
+                label.setBackground(selected_background);
+                mainFragment.askConfirm(card);
+            }
+            return true;
+        }
+
+        @Override
+        public boolean onDoubleTapEvent(MotionEvent motionEvent) {
+            return false;
+        }
+
+        @Override
+        public boolean onDown(MotionEvent motionEvent) {
+            return mainFragment.getShowBorder();
+        }
+
+        @Override
+        public void onShowPress(MotionEvent motionEvent) {
+
+        }
+
+        @Override
+        public boolean onSingleTapUp(MotionEvent motionEvent) {
+            return false;
+        }
+
+        @Override
+        public boolean onScroll(MotionEvent motionEvent, MotionEvent motionEvent1, float v, float v1) {
+            return false;
+        }
+
+        @Override
+        public void onLongPress(MotionEvent motionEvent) {
+
+        }
+
+        @Override
+        public boolean onFling(MotionEvent motionEvent, MotionEvent motionEvent1, float v, float v1) {
+            return false;
+        }
+    }
+
+    @Override
+    public boolean onTouchEvent(MotionEvent event) {
+        if (this.gestureDetector.onTouchEvent(event)) {
+            return true;
+        }
+        return false;
+    }
 
     public Card(Context context) {
         super(context);
+        mainFragment = (MainFragment) ((MainActivity) context).getSupportFragmentManager().getFragments().get(0);
         LayoutParams lp = null;
 
-        background = new View(getContext());
+        View background = new View(getContext());
         lp = new LayoutParams(-1, -1);
         lp.setMargins(10, 10, 0, 0);
         background.setBackgroundColor(getResources().getColor(

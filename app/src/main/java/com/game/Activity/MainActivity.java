@@ -36,6 +36,7 @@ public class MainActivity extends ActionBarActivity implements OnMenuItemClickLi
     private long firsttime; // 监听两次返回
     private FragmentManager fragmentManager;
     private DialogFragment mMenuDialogFragment;
+    private boolean showBorder;
 
 
     @Override
@@ -232,5 +233,9 @@ public class MainActivity extends ActionBarActivity implements OnMenuItemClickLi
             }
         }
         return false;
+    }
+
+    public boolean getShowBorder() {
+        return showBorder;
     }
 }
