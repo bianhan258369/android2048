@@ -178,6 +178,7 @@ public class LoginActivity extends Activity implements View.OnClickListener {
                 break;
             case R.id.startPropGame:
                 next = new Intent(this,MainActivity.class);
+                next.putExtra("NeedProp", true);
                 startActivity(next);
                 finish();
                 break;

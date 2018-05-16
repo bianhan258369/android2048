@@ -22,7 +22,6 @@ public class GameView extends LinearLayout {
     private Context context;
     private MediaPlayer player;
     private Card[][] cardsMap = new Card[Config.LINES][Config.LINES];
-    private List<Point> emptyPoints = new ArrayList<Point>();
 
     public GameView(Context context) {
         super(context);
@@ -144,7 +143,7 @@ public class GameView extends LinearLayout {
     //添加随机卡片
     private void addRandomNum() {
 
-        emptyPoints.clear();
+        List<Point> emptyPoints = new ArrayList<Point>();emptyPoints.clear();
         for (int y = 0; y < Config.LINES; y++) {
             for (int x = 0; x < Config.LINES; x++) {
                 if (cardsMap[x][y].getNum() <= 0) {
@@ -314,7 +313,6 @@ public class GameView extends LinearLayout {
     //向下移动
     private void swipeDown() {
 
-
         boolean merge = false;
 
         for (int x = 0; x < Config.LINES; x++) {
@@ -366,7 +364,6 @@ public class GameView extends LinearLayout {
 
         boolean complete = true;
 
-        ALL:
         for (int y = 0; y < Config.LINES; y++) {
             for (int x = 0; x < Config.LINES; x++) {
                 if (cardsMap[x][y].getNum() == 0
@@ -376,15 +373,25 @@ public class GameView extends LinearLayout {
                         || (y > 0 && cardsMap[x][y].equals(cardsMap[x][y - 1]))
                         || (y < Config.LINES - 1 && cardsMap[x][y]
                         .equals(cardsMap[x][y + 1]))) {
-
-                    complete = false;
-                    break ALL;
+                    return;
                 }
             }
         }
 
-        if (complete) {
-            DialogUtils.getAddChartDialog(context, MainFragment.getMainFragment().getScore());
+        DialogUtils.getAddChartDialog(context, MainFragment.getMainFragment().getScore());
+    }
+
+    public boolean canRemove(){
+        int count = 0;
+        for (Card[] row :cardsMap) {
+            for (Card c : row){
+                if (c.getNum() !=  0){
+                    count++;
+                    if (count >= 2)
+                        return true;
+                }
+            }
         }
+        return false;
     }
 }

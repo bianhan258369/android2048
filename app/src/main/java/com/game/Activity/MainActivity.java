@@ -33,7 +33,7 @@ public class MainActivity extends ActionBarActivity implements OnMenuItemClickLi
         OnMenuItemLongClickListener {
 
     private MainFragment mainFragment;
-    private long firsttime; // 监听两次返回
+    private long firstTime; // 监听两次返回
     private FragmentManager fragmentManager;
     private DialogFragment mMenuDialogFragment;
     private boolean showBorder;
@@ -49,8 +49,9 @@ public class MainActivity extends ActionBarActivity implements OnMenuItemClickLi
         initToolbar();
         initMenuFragment();
         mainFragment = new MainFragment();
+        if (getIntent().hasExtra("NeedProp"))
+            mainFragment.setNeedProp(true);
         addFragment(mainFragment, true, R.id.container);
-
     }
 
     @Override
@@ -74,21 +75,6 @@ public class MainActivity extends ActionBarActivity implements OnMenuItemClickLi
 
     //获取数据
     private List<MenuObject> getMenuObjects() {
-        // You can use any [resource, bitmap, drawable, color] as image:
-        // item.setResource(...)
-        // item.setBitmap(...)
-        // item.setDrawable(...)
-        // item.setColor(...)
-        // You can set image ScaleType:
-        // item.setScaleType(ScaleType.FIT_XY)
-        // You can use any [resource, drawable, color] as background:
-        // item.setBgResource(...)
-        // item.setBgDrawable(...)
-        // item.setBgColor(...)
-        // You can use any [color] as text color:
-        // item.setTextColor(...)
-        // You can set any [color] as divider color:
-        // item.setDividerColor(...)
 
         List<MenuObject> menuObjects = new ArrayList<>();
 
@@ -223,11 +209,11 @@ public class MainActivity extends ActionBarActivity implements OnMenuItemClickLi
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
         if (keyCode == KeyEvent.KEYCODE_BACK) {
-            if (System.currentTimeMillis() - firsttime < 3000) {
+            if (System.currentTimeMillis() - firstTime < 3000) {
                 finish();
                 return true;
             } else {
-                firsttime = System.currentTimeMillis();
+                firstTime = System.currentTimeMillis();
                 Toast.makeText(this, "再点一次退出", Toast.LENGTH_SHORT).show();
                 return false;
             }

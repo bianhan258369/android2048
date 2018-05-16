@@ -11,6 +11,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.game.Model.Card;
 import com.game.R;
@@ -26,6 +27,15 @@ public class MainFragment extends Fragment {
     private AnimLayer animLayer = null;
     public static final String SP_KEY_BEST_SCORE = "bestScore";
     public Tool tool;
+    private View rootView;
+    private String curTool = "";
+
+    public MainFragment setNeedProp(boolean needProp) {
+        this.needProp = needProp;
+        return this;
+    }
+
+    private boolean needProp;
 
 
     public static MainFragment mainFragment;
@@ -35,12 +45,11 @@ public class MainFragment extends Fragment {
         mainFragment = this;
     }
 
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
         //首先将布局放进来 因为是fragment  所以特殊一点  这么放
-        View rootView = inflater.inflate(R.layout.fragment_main, container, false);
+        rootView = inflater.inflate(R.layout.fragment_main, container, false);
 
         //然后获取一个容器  放中间的gameview  因为开源库的原因更改成fragment
         root = (LinearLayout) rootView.findViewById(R.id.container);
@@ -56,7 +65,10 @@ public class MainFragment extends Fragment {
 
         animLayer = (AnimLayer) rootView.findViewById(R.id.animLayer);
 
-        tool = new Tool((Button) rootView.findViewById(R.id.button_doubleNumber), (Button) rootView.findViewById(R.id.button_removeNumber), (Button) rootView.findViewById(R.id.button_makeChaos));
+        if (needProp) {
+            tool = new Tool((Button) rootView.findViewById(R.id.button_doubleNumber), (Button) rootView.findViewById(R.id.button_removeNumber), (Button) rootView.findViewById(R.id.button_makeChaos));
+            rootView.findViewById(R.id.tools).setVisibility(View.VISIBLE);
+        }
 
         return rootView;
     }
@@ -121,21 +133,45 @@ public class MainFragment extends Fragment {
 
     public void askConfirm(final Card card) {
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-        builder.setTitle("确认信息").setMessage("确定将当前各自中的数字翻倍吗？")
-                .setPositiveButton("确认", new DialogInterface.OnClickListener() {
+        switch (curTool) {
+            case "Double":
+                builder.setTitle("确认信息").setMessage("确定将当前选中数字翻倍吗？")
+                        .setPositiveButton("确认", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+                                card.setNum(card.getNum() * 2);
+                                card.afterSelect();
+                                showBorder = false;
+                            }
+                        }).setNegativeButton("返回", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
-                        card.setNum(card.getNum() * 2);
                         card.afterSelect();
-                        showBorder = false;
+                        dialogInterface.dismiss();
                     }
-                }).setNegativeButton("返回", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialogInterface, int i) {
-                card.afterSelect();
-                dialogInterface.dismiss();
-            }
-        }).show();
+                }).show();
+                break;
+            case "Remove":
+                builder.setTitle("确认信息").setMessage("确定移除当前数字吗？")
+                        .setPositiveButton("确认", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+                                card.afterSelect();
+                                card.setNum(0);
+                                showBorder = false;
+                            }
+                        })
+                        .setNegativeButton("返回", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+                                card.afterSelect();
+                                dialogInterface.dismiss();
+                            }
+                        }).show();
+                break;
+            default:
+                break;
+        }
     }
 
     class Tool {
@@ -153,13 +189,19 @@ public class MainFragment extends Fragment {
                 @Override
                 public void onClick(View view) {
                     showBorder = true;
+                    curTool = "Double";
                 }
             });
 
             rN.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    showBorder = true;
+                    if (gameView.canRemove()){
+                        showBorder = true;
+                        curTool = "Remove";
+                    }else {
+                        Toast.makeText(getActivity(), "至少要有两个数才能使用该道具!", Toast.LENGTH_SHORT).show();
+                    }
                 }
             });
 

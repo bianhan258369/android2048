@@ -2,7 +2,6 @@ package com.game.Model;
 
 import android.content.Context;
 import android.graphics.drawable.ColorDrawable;
-import android.graphics.drawable.Drawable;
 import android.graphics.drawable.GradientDrawable;
 import android.text.TextPaint;
 import android.view.GestureDetector;
@@ -15,7 +14,6 @@ import android.widget.TextView;
 import com.game.Activity.MainActivity;
 import com.game.Activity.MainFragment;
 import com.game.R;
-import com.game.Utils.GameView;
 
 public class Card extends FrameLayout {
 
