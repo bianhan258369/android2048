@@ -66,7 +66,12 @@ public class MainFragment extends Fragment {
         animLayer = (AnimLayer) rootView.findViewById(R.id.animLayer);
 
         if (needProp) {
-            tool = new Tool((Button) rootView.findViewById(R.id.button_doubleNumber), (Button) rootView.findViewById(R.id.button_removeNumber), (Button) rootView.findViewById(R.id.button_makeChaos));
+            tool = new Tool((Button) rootView.findViewById(R.id.button_doubleNumber),
+                    (Button) rootView.findViewById(R.id.button_removeNumber),
+                    (Button) rootView.findViewById(R.id.button_makeChaos),
+                    (TextView) rootView.findViewById(R.id.num_doubleNumber),
+                    (TextView) rootView.findViewById(R.id.num_removeNumber),
+                    (TextView) rootView.findViewById(R.id.num_makeChaos));
             rootView.findViewById(R.id.tools).setVisibility(View.VISIBLE);
         }
 
@@ -139,9 +144,10 @@ public class MainFragment extends Fragment {
                         .setPositiveButton("确认", new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialogInterface, int i) {
-                                card.setNum(card.getNum() * 2);
                                 card.afterSelect();
+                                card.setNum(card.getNum() * 2);
                                 showBorder = false;
+                                tool.useTool("dN");
                             }
                         }).setNegativeButton("返回", new DialogInterface.OnClickListener() {
                     @Override
@@ -159,6 +165,7 @@ public class MainFragment extends Fragment {
                                 card.afterSelect();
                                 card.setNum(0);
                                 showBorder = false;
+                                tool.useTool("rN");
                             }
                         })
                         .setNegativeButton("返回", new DialogInterface.OnClickListener() {
@@ -176,12 +183,46 @@ public class MainFragment extends Fragment {
 
     class Tool {
         Button dN, rN, mC;
+        TextView dN_, rN_, mC_;
+        int dN_num = 3, rN_num = 3, mC_num = 3;
 
-        public Tool(Button dN, Button rN, Button mC) {
+        public Tool(Button dN, Button rN, Button mC, TextView dN_, TextView rN_, TextView mC_) {
             this.dN = dN;
             this.rN = rN;
             this.mC = mC;
+            this.dN_ = dN_;
+            this.rN_ = rN_;
+            this.mC_ = mC_;
             init();
+        }
+
+        public void useTool(String name){
+            switch (name){
+                case "dN":
+                    dN_num--;
+                    dN_.setText(dN_num + "");
+                    if (dN_num == 0){
+                        dN.setClickable(false);
+                        Toast.makeText(getActivity(), "翻倍道具已达使用上限！", Toast.LENGTH_SHORT).show();
+                    }
+                    break;
+                case "rN":
+                    rN_num--;
+                    rN_.setText(rN_num + "");
+                    if (rN_num == 0){
+                        dN.setClickable(false);
+                        Toast.makeText(getActivity(), "删除道具已达使用上限！", Toast.LENGTH_SHORT).show();
+                    }
+                    break;
+                case "mC":
+                    mC_num--;
+                    mC_.setText(mC_num + "");
+                    if (mC_num == 0){
+                        Toast.makeText(getActivity(), "翻倍道具已达使用上限！", Toast.LENGTH_SHORT).show();
+                        dN.setClickable(false);
+                    }
+                    break;
+            }
         }
 
         private void init() {

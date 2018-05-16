@@ -97,23 +97,52 @@
         android:gravity="center"
         android:visibility="gone">
 
-        <Button
-            android:id="@+id/button_doubleNumber"
-            android:text="Double"
+        <TableLayout
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content">
+            <TableRow>
+                <Button
+                    android:id="@+id/button_doubleNumber"
+                    android:text="Double"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
 
-        <Button
-            android:id="@+id/button_removeNumber"
-            android:text="Remove"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+                <Button
+                    android:id="@+id/button_removeNumber"
+                    android:text="Remove"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
 
-        <Button
-            android:id="@+id/button_makeChaos"
-            android:text="Chaos"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+                <Button
+                    android:id="@+id/button_makeChaos"
+                    android:text="Chaos"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+            </TableRow>
+            <TableRow>
+
+                <TextView
+                    android:id="@+id/num_doubleNumber"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:text="3" />
+
+                <TextView
+                    android:id="@+id/num_removeNumber"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:text="3" />
+
+                <TextView
+                    android:id="@+id/num_makeChaos"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:text="3" />
+            </TableRow>
+        </TableLayout>
 
     </LinearLayout>
 
