@@ -6,7 +6,7 @@ import android.content.DialogInterface;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
-import android.support.v7.app.ActionBarActivity;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.KeyEvent;
 import android.view.View;
@@ -17,7 +17,7 @@ import android.widget.TextView;
 
 import com.game.R;
 
-public class WebHelpActivity extends ActionBarActivity {
+public class WebHelpActivity extends AppCompatActivity {
 
     private WebView wv;
     private ProgressDialog pd;

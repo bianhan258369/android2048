@@ -79,7 +79,6 @@ public class GameView extends LinearLayout {
                                 swipeDown();
                             }
                         }
-
                         break;
                 }
                 return true;
@@ -91,6 +90,15 @@ public class GameView extends LinearLayout {
     @Override
     protected void onSizeChanged(int w, int h, int oldw, int oldh) {
         super.onSizeChanged(w, h, oldw, oldh);
+
+        /**
+         * 使用 SquareFrameLayout 会触发两次 onSizeChanged
+         * 一次触发于创建 GameView
+         * 一次触发于 parent view 调整大小
+         * 第二次触发时不应该再修改此 GameView
+         */
+        if (this.getChildCount() == 4)
+            return;
 
         Config.CARD_WIDTH = (Math.min(w, h) - 10) / Config.LINES;
 

@@ -9,7 +9,7 @@ import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
-import android.support.v7.app.ActionBarActivity;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.KeyEvent;
 import android.view.Menu;
@@ -20,6 +20,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.game.R;
+import com.game.Utils.ToastUtil;
 import com.yalantis.contextmenu.lib.ContextMenuDialogFragment;
 import com.yalantis.contextmenu.lib.MenuObject;
 import com.yalantis.contextmenu.lib.MenuParams;
@@ -29,7 +30,7 @@ import com.yalantis.contextmenu.lib.interfaces.OnMenuItemLongClickListener;
 import java.util.ArrayList;
 import java.util.List;
 
-public class MainActivity extends ActionBarActivity implements OnMenuItemClickListener,
+public class MainActivity extends AppCompatActivity implements OnMenuItemClickListener,
         OnMenuItemLongClickListener {
 
     private MainFragment mainFragment;
@@ -202,7 +203,7 @@ public class MainActivity extends ActionBarActivity implements OnMenuItemClickLi
 
     @Override
     public void onMenuItemLongClick(View clickedView, int position) {
-        Toast.makeText(this, "Long clicked on position: " + position, Toast.LENGTH_SHORT).show();
+        ToastUtil.makeText(this, "Long clicked on position: " + position, Toast.LENGTH_SHORT);
     }
 
     //点击两次退出
@@ -214,7 +215,7 @@ public class MainActivity extends ActionBarActivity implements OnMenuItemClickLi
                 return true;
             } else {
                 firstTime = System.currentTimeMillis();
-                Toast.makeText(this, "再点一次退出", Toast.LENGTH_SHORT).show();
+                ToastUtil.makeText(this, "再点一次退出", Toast.LENGTH_SHORT);
                 return false;
             }
         }

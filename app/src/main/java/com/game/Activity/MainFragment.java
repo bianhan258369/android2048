@@ -8,7 +8,7 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -17,6 +17,7 @@ import com.game.Model.Card;
 import com.game.R;
 import com.game.Utils.AnimLayer;
 import com.game.Utils.GameView;
+import com.game.Utils.ToastUtil;
 
 public class MainFragment extends Fragment {
 
@@ -66,9 +67,9 @@ public class MainFragment extends Fragment {
         animLayer = (AnimLayer) rootView.findViewById(R.id.animLayer);
 
         if (needProp) {
-            tool = new Tool((Button) rootView.findViewById(R.id.button_doubleNumber),
-                    (Button) rootView.findViewById(R.id.button_removeNumber),
-                    (Button) rootView.findViewById(R.id.button_makeChaos),
+            tool = new Tool((ImageButton) rootView.findViewById(R.id.button_doubleNumber),
+                    (ImageButton) rootView.findViewById(R.id.button_removeNumber),
+                    (ImageButton) rootView.findViewById(R.id.button_makeChaos),
                     (TextView) rootView.findViewById(R.id.num_doubleNumber),
                     (TextView) rootView.findViewById(R.id.num_removeNumber),
                     (TextView) rootView.findViewById(R.id.num_makeChaos));
@@ -182,11 +183,11 @@ public class MainFragment extends Fragment {
     }
 
     class Tool {
-        Button dN, rN, mC;
+        ImageButton dN, rN, mC;
         TextView dN_, rN_, mC_;
         int dN_num = 3, rN_num = 3, mC_num = 3;
 
-        public Tool(Button dN, Button rN, Button mC, TextView dN_, TextView rN_, TextView mC_) {
+        public Tool(ImageButton dN, ImageButton rN, ImageButton mC, TextView dN_, TextView rN_, TextView mC_) {
             this.dN = dN;
             this.rN = rN;
             this.mC = mC;
@@ -203,7 +204,9 @@ public class MainFragment extends Fragment {
                     dN_.setText(dN_num + "");
                     if (dN_num == 0){
                         dN.setClickable(false);
-                        Toast.makeText(getActivity(), "翻倍道具已达使用上限！", Toast.LENGTH_SHORT).show();
+                        dN.setBackgroundColor(R.color.white);
+                        dN_.setBackgroundColor(R.color.white);
+                        ToastUtil.makeText(getActivity(), "翻倍道具已达使用上限！", Toast.LENGTH_SHORT);
                     }
                     break;
                 case "rN":
@@ -211,14 +214,14 @@ public class MainFragment extends Fragment {
                     rN_.setText(rN_num + "");
                     if (rN_num == 0){
                         dN.setClickable(false);
-                        Toast.makeText(getActivity(), "删除道具已达使用上限！", Toast.LENGTH_SHORT).show();
+                        ToastUtil.makeText(getActivity(), "删除道具已达使用上限！", Toast.LENGTH_SHORT);
                     }
                     break;
                 case "mC":
                     mC_num--;
                     mC_.setText(mC_num + "");
                     if (mC_num == 0){
-                        Toast.makeText(getActivity(), "翻倍道具已达使用上限！", Toast.LENGTH_SHORT).show();
+                        ToastUtil.makeText(getActivity(), "翻倍道具已达使用上限！", Toast.LENGTH_SHORT);
                         dN.setClickable(false);
                     }
                     break;
@@ -241,7 +244,7 @@ public class MainFragment extends Fragment {
                         showBorder = true;
                         curTool = "Remove";
                     }else {
-                        Toast.makeText(getActivity(), "至少要有两个数才能使用该道具!", Toast.LENGTH_SHORT).show();
+                        ToastUtil.makeText(getActivity(), "至少要有两个数才能使用该道具!", Toast.LENGTH_SHORT);
                     }
                 }
             });
