@@ -3,6 +3,9 @@ package com.game.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.SharedPreferences;
+import android.graphics.Color;
+import android.graphics.PorterDuff;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -62,7 +65,7 @@ public class MainFragment extends Fragment {
         tvScore = (TextView) rootView.findViewById(R.id.tvScore);
         tvBestScore = (TextView) rootView.findViewById(R.id.tvBestScore);
 
-        gameView = (GameView) rootView.findViewById(R.id.gameView);
+        gameView = ((GameView) rootView.findViewById(R.id.gameView)).setMainFragment(this);
 
         animLayer = (AnimLayer) rootView.findViewById(R.id.animLayer);
 
@@ -182,10 +185,15 @@ public class MainFragment extends Fragment {
         }
     }
 
+    public void reset() {
+        tool.reset();
+    }
+
     class Tool {
         ImageButton dN, rN, mC;
         TextView dN_, rN_, mC_;
         int dN_num = 3, rN_num = 3, mC_num = 3;
+        Drawable enabled, disabled;
 
         public Tool(ImageButton dN, ImageButton rN, ImageButton mC, TextView dN_, TextView rN_, TextView mC_) {
             this.dN = dN;
@@ -194,7 +202,13 @@ public class MainFragment extends Fragment {
             this.dN_ = dN_;
             this.rN_ = rN_;
             this.mC_ = mC_;
+            enabled = getResources().getDrawable(R.drawable.tips_circle);
+            disabled = convertDrawableToGrayScale();
             init();
+        }
+
+        public void reset(){
+
         }
 
         public void useTool(String name){
@@ -203,9 +217,8 @@ public class MainFragment extends Fragment {
                     dN_num--;
                     dN_.setText(dN_num + "");
                     if (dN_num == 0){
-                        dN.setClickable(false);
-                        dN.setBackgroundColor(R.color.white);
-                        dN_.setBackgroundColor(R.color.white);
+                        dN.setEnabled(false);
+                        dN.setBackground(disabled);
                         ToastUtil.makeText(getActivity(), "翻倍道具已达使用上限！", Toast.LENGTH_SHORT);
                     }
                     break;
@@ -213,7 +226,8 @@ public class MainFragment extends Fragment {
                     rN_num--;
                     rN_.setText(rN_num + "");
                     if (rN_num == 0){
-                        dN.setClickable(false);
+                        rN.setEnabled(false);
+                        dN.setBackground(disabled);
                         ToastUtil.makeText(getActivity(), "删除道具已达使用上限！", Toast.LENGTH_SHORT);
                     }
                     break;
@@ -221,8 +235,9 @@ public class MainFragment extends Fragment {
                     mC_num--;
                     mC_.setText(mC_num + "");
                     if (mC_num == 0){
+                        mC.setEnabled(false);
+                        dN.setBackground(disabled);
                         ToastUtil.makeText(getActivity(), "翻倍道具已达使用上限！", Toast.LENGTH_SHORT);
-                        dN.setClickable(false);
                     }
                     break;
             }
@@ -252,9 +267,20 @@ public class MainFragment extends Fragment {
             mC.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-
+                    gameView.makeChaos();
+                    useTool("mC");
                 }
             });
+        }
+
+        private Drawable convertDrawableToGrayScale() {
+            Drawable drawable = getResources().getDrawable(R.drawable.tips_circle);
+            if (drawable == null)
+                return null;
+
+            Drawable res = drawable.mutate();
+            res.setColorFilter(Color.GRAY, PorterDuff.Mode.SRC_IN);
+            return res;
         }
     }
 
