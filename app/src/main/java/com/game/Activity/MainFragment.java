@@ -227,7 +227,7 @@ public class MainFragment extends Fragment {
                     rN_.setText(rN_num + "");
                     if (rN_num == 0){
                         rN.setEnabled(false);
-                        dN.setBackground(disabled);
+                        rN.setBackground(disabled);
                         ToastUtil.makeText(getActivity(), "删除道具已达使用上限！", Toast.LENGTH_SHORT);
                     }
                     break;
@@ -236,7 +236,7 @@ public class MainFragment extends Fragment {
                     mC_.setText(mC_num + "");
                     if (mC_num == 0){
                         mC.setEnabled(false);
-                        dN.setBackground(disabled);
+                        mC.setBackground(disabled);
                         ToastUtil.makeText(getActivity(), "翻倍道具已达使用上限！", Toast.LENGTH_SHORT);
                     }
                     break;
