@@ -34,3 +34,8 @@ proguard/
 # Log Files
 *.log
 >>>>>>> 08b02cccb08fd1da85309de79fba184ac48822bd
+.idea/caches/build_file_checksums.ser
+app/app.iml
+library/build.gradle
+library/build/generated/source/buildConfig/debug/com/baoyz/swipemenulistview/BuildConfig.java
+library/library.iml
