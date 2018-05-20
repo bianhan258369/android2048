@@ -1,13 +1,13 @@
 apply plugin: 'com.android.application'
 
 android {
-    compileSdkVersion 21
+    compileSdkVersion 26
     buildToolsVersion '27.0.3'
 
     defaultConfig {
         applicationId "com.game"
-        minSdkVersion 20
-        targetSdkVersion 25
+        minSdkVersion 21
+        targetSdkVersion 26
         versionCode 1
         versionName "1.0"
     }
@@ -20,9 +20,10 @@ android {
 }
 
 dependencies {
-    api 'com.android.support:appcompat-v7:21.0.3'
+    api 'com.android.support:appcompat-v7:26.0.1'
     api 'com.daimajia.numberprogressbar:library:1.2@aar'
     api 'com.yalantis:contextmenu:1.0.4'
     api 'com.nineoldandroids:library:2.4.0'
     api project(':library')
+    api 'com.github.kaushikthedeveloper:squarelayout:0.0.3'
 }

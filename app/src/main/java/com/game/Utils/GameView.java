@@ -5,6 +5,7 @@ import android.content.Context;
 import android.graphics.Point;
 import android.media.MediaPlayer;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.LinearLayout;
@@ -14,15 +15,25 @@ import com.game.Model.Card;
 import com.game.R;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
+import java.util.Random;
 
 
 public class GameView extends LinearLayout {
 
     private Context context;
+
+    public GameView setMainFragment(MainFragment mainFragment) {
+        this.mainFragment = mainFragment;
+        return this;
+    }
+
+    private MainFragment mainFragment;
     private MediaPlayer player;
     private Card[][] cardsMap = new Card[Config.LINES][Config.LINES];
-    private List<Point> emptyPoints = new ArrayList<Point>();
+    private boolean isInitalized = false;
 
     public GameView(Context context) {
         super(context);
@@ -80,7 +91,6 @@ public class GameView extends LinearLayout {
                                 swipeDown();
                             }
                         }
-
                         break;
                 }
                 return true;
@@ -92,6 +102,15 @@ public class GameView extends LinearLayout {
     @Override
     protected void onSizeChanged(int w, int h, int oldw, int oldh) {
         super.onSizeChanged(w, h, oldw, oldh);
+
+        /**
+         * 使用 SquareFrameLayout 会触发两次 onSizeChanged
+         * 一次触发于创建 GameView
+         * 一次触发于 parent view 调整大小
+         * 第二次触发时不应该再修改此 GameView
+         */
+        if (isInitalized)
+            return;
 
         Config.CARD_WIDTH = (Math.min(w, h) - 10) / Config.LINES;
 
@@ -120,6 +139,8 @@ public class GameView extends LinearLayout {
                 cardsMap[x][y] = c;
             }
         }
+
+        isInitalized = true;
     }
 
     //开始游戏（也是重新开始）
@@ -128,7 +149,7 @@ public class GameView extends LinearLayout {
         MainFragment aty = MainFragment.getMainFragment();
         aty.clearScore();
         aty.showBestScore(aty.getBestScore());
-
+        mainFragment.reset();
 
         for (int y = 0; y < Config.LINES; y++) {
             for (int x = 0; x < Config.LINES; x++) {
@@ -144,6 +165,7 @@ public class GameView extends LinearLayout {
     //添加随机卡片
     private void addRandomNum() {
 
+        List<Point> emptyPoints = new ArrayList<Point>();
         emptyPoints.clear();
         for (int y = 0; y < Config.LINES; y++) {
             for (int x = 0; x < Config.LINES; x++) {
@@ -314,7 +336,6 @@ public class GameView extends LinearLayout {
     //向下移动
     private void swipeDown() {
 
-
         boolean merge = false;
 
         for (int x = 0; x < Config.LINES; x++) {
@@ -366,7 +387,6 @@ public class GameView extends LinearLayout {
 
         boolean complete = true;
 
-        ALL:
         for (int y = 0; y < Config.LINES; y++) {
             for (int x = 0; x < Config.LINES; x++) {
                 if (cardsMap[x][y].getNum() == 0
@@ -376,15 +396,42 @@ public class GameView extends LinearLayout {
                         || (y > 0 && cardsMap[x][y].equals(cardsMap[x][y - 1]))
                         || (y < Config.LINES - 1 && cardsMap[x][y]
                         .equals(cardsMap[x][y + 1]))) {
-
-                    complete = false;
-                    break ALL;
+                    return;
                 }
             }
         }
 
-        if (complete) {
-            DialogUtils.getAddChartDialog(context, MainFragment.getMainFragment().getScore());
+        DialogUtils.getAddChartDialog(context, MainFragment.getMainFragment().getScore());
+    }
+
+    public boolean canRemove() {
+        int count = 0;
+        for (Card[] row : cardsMap) {
+            for (Card c : row) {
+                if (c.getNum() != 0) {
+                    count++;
+                    if (count >= 2)
+                        return true;
+                }
+            }
+        }
+        return false;
+    }
+
+    public void makeChaos() {
+        /**
+         * Fisher-Yates 算法：生成有限数列的随机排列
+         */
+        Random random = new Random();
+        int index = Config.LINES * Config.LINES;
+        for (int i = Config.LINES - 1; i >= 0; --i) {
+            for (int j = Config.LINES - 1; j >= 0; --j) {
+                int moveTo = random.nextInt(index);
+                int tmp = cardsMap[i][j].getNum();
+                cardsMap[i][j].setNum(cardsMap[moveTo / Config.LINES][moveTo % Config.LINES].getNum());
+                cardsMap[moveTo / Config.LINES][moveTo % Config.LINES].setNum(tmp);
+                --index;
+            }
         }
     }
 }
