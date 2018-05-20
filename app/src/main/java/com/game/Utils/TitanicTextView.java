@@ -8,6 +8,7 @@ import android.graphics.Canvas;
 import android.graphics.Matrix;
 import android.graphics.Shader;
 import android.graphics.drawable.Drawable;
+import android.support.v7.widget.AppCompatTextView;
 import android.util.AttributeSet;
 import android.widget.TextView;
 
@@ -19,7 +20,7 @@ import com.game.R;
  * romainpiel
  * 13/03/2014
  */
-public class TitanicTextView extends android.support.v7.widget.AppCompatTextView {
+public class TitanicTextView extends AppCompatTextView {
 
     public interface AnimationSetupCallback {
         public void onSetupAnimation(TitanicTextView titanicTextView);

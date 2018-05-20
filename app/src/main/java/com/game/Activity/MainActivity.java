@@ -11,6 +11,7 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -34,7 +35,7 @@ public class MainActivity extends AppCompatActivity implements OnMenuItemClickLi
         OnMenuItemLongClickListener {
 
     private MainFragment mainFragment;
-    private long firstTime; // 监听两次返回
+    private long firsttime; // 监听两次返回
     private FragmentManager fragmentManager;
     private DialogFragment mMenuDialogFragment;
     private boolean showBorder;
@@ -50,8 +51,10 @@ public class MainActivity extends AppCompatActivity implements OnMenuItemClickLi
         initToolbar();
         initMenuFragment();
         mainFragment = new MainFragment();
-        if (getIntent().hasExtra("NeedProp"))
-            mainFragment.setNeedProp(true);
+
+        Intent i = getIntent();
+        String mode = i.getStringExtra("MODE");
+        mainFragment.setMode(mode);
         addFragment(mainFragment, true, R.id.container);
     }
 
@@ -210,11 +213,11 @@ public class MainActivity extends AppCompatActivity implements OnMenuItemClickLi
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
         if (keyCode == KeyEvent.KEYCODE_BACK) {
-            if (System.currentTimeMillis() - firstTime < 3000) {
+            if (System.currentTimeMillis() - firsttime < 3000) {
                 finish();
                 return true;
             } else {
-                firstTime = System.currentTimeMillis();
+                firsttime = System.currentTimeMillis();
                 ToastUtil.makeText(this, "再点一次退出", Toast.LENGTH_SHORT);
                 return false;
             }

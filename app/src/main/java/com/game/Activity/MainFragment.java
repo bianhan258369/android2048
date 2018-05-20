@@ -3,13 +3,10 @@ package com.game.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.SharedPreferences;
-import android.content.res.ColorStateList;
-import android.graphics.Color;
-import android.graphics.PorterDuff;
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
+import android.os.CountDownTimer;
 import android.support.v4.app.Fragment;
+import android.support.design.widget.FloatingActionButton;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -32,17 +29,13 @@ public class MainFragment extends Fragment {
     private AnimLayer animLayer = null;
     public static final String SP_KEY_BEST_SCORE = "bestScore";
     public Tool tool;
-    private View rootView;
     private String curTool = "";
     private FloatingActionButton fab_quit_tool, fab_show_tools;
     private LinearLayout tools_layout;
 
-    public MainFragment setNeedProp(boolean needProp) {
-        this.needProp = needProp;
-        return this;
-    }
-
-    private boolean needProp;
+    public CountDownTimer countDownTimer;
+    public TextView timer;
+    String mode;
 
 
     public static MainFragment mainFragment;
@@ -52,11 +45,12 @@ public class MainFragment extends Fragment {
         mainFragment = this;
     }
 
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
         //首先将布局放进来 因为是fragment  所以特殊一点  这么放
-        rootView = inflater.inflate(R.layout.fragment_main, container, false);
+        View rootView = inflater.inflate(R.layout.fragment_main, container, false);
 
         //然后获取一个容器  放中间的gameview  因为开源库的原因更改成fragment
         root = (LinearLayout) rootView.findViewById(R.id.container);
@@ -73,7 +67,7 @@ public class MainFragment extends Fragment {
         animLayer = (AnimLayer) rootView.findViewById(R.id.animLayer);
 
 
-        tools_layout = rootView.findViewById(R.id.tools);
+        tools_layout = (LinearLayout) rootView.findViewById(R.id.tools);
 
         fab_quit_tool = (FloatingActionButton) rootView.findViewById(R.id.fab_quick_tool);
 
@@ -96,7 +90,10 @@ public class MainFragment extends Fragment {
             }
         });
 
-        if (needProp) {
+        timer = (TextView) rootView.findViewById(R.id.timer);
+        timer.setVisibility(View.INVISIBLE);
+
+        if (mode.equals("Prop")) {
             tool = new Tool((FloatingActionButton) rootView.findViewById(R.id.button_doubleNumber),
                     (FloatingActionButton) rootView.findViewById(R.id.button_removeNumber),
                     (FloatingActionButton) rootView.findViewById(R.id.button_makeChaos),
@@ -104,6 +101,20 @@ public class MainFragment extends Fragment {
                     (TextView) rootView.findViewById(R.id.num_removeNumber),
                     (TextView) rootView.findViewById(R.id.num_makeChaos));
             fab_show_tools.setVisibility(View.VISIBLE);
+        } else if (mode.equals("Timer")) {
+            timer.setVisibility(View.VISIBLE);
+            countDownTimer = new CountDownTimer(300000, 1000) {
+                @Override
+                public void onTick(long l) {
+                    timer.setText(String.valueOf(l / 1000));
+                }
+
+                @Override
+                public void onFinish() {
+                    gameView.finish();
+                }
+            };
+            countDownTimer.start();
         }
 
         return rootView;
@@ -119,11 +130,12 @@ public class MainFragment extends Fragment {
     }
 
     public void showScore() {
-        tvScore.setText(score + "");
+        tvScore.setText(String.valueOf(score));
     }
 
     public void startGame() {
         gameView.startGame();
+        if (mode.equals("Timer")) countDownTimer.start();
     }
 
     public void addScore(int s) {
@@ -152,7 +164,7 @@ public class MainFragment extends Fragment {
     }
 
     public void showBestScore(int s) {
-        tvBestScore.setText(s + "");
+        tvBestScore.setText(String.valueOf(s));
     }
 
     public AnimLayer getAnimLayer() {
@@ -161,6 +173,11 @@ public class MainFragment extends Fragment {
 
     public int getScore() {
         return score;
+    }
+
+    public void reset() {
+        if (mode.equals("Prop"))
+            tool.reset();
     }
 
     public boolean getShowBorder() {
@@ -212,8 +229,8 @@ public class MainFragment extends Fragment {
         }
     }
 
-    public void reset() {
-        tool.reset();
+    public void setMode(String mode) {
+        this.mode = mode;
     }
 
     class Tool {
@@ -233,7 +250,7 @@ public class MainFragment extends Fragment {
             init();
         }
 
-        public void reset(){
+        void reset() {
             dN.setEnabled(true);
             dN.setAlpha(1f);
             rN.setEnabled(true);
@@ -241,20 +258,20 @@ public class MainFragment extends Fragment {
             mC.setEnabled(true);
             mC.setAlpha(1f);
             dN_num = rN_num = mC_num = 3;
-            dN_.setText(dN_num + "");
-            rN_.setText(rN_num + "");
-            mC_.setText(mC_num + "");
+            dN_.setText(String.valueOf(dN_num));
+            rN_.setText(String.valueOf(rN_num));
+            mC_.setText(String.valueOf(mC_num));
             dN_first = rN_first = mC_first = true;
         }
 
-        public void useTool(String name){
+        public void useTool(String name) {
             tools_layout.setVisibility(View.GONE);
             fab_show_tools.setVisibility(View.VISIBLE);
-            switch (name){
+            switch (name) {
                 case "dN":
                     dN_num--;
-                    dN_.setText(dN_num + "");
-                    if (dN_num == 0){
+                    dN_.setText(String.valueOf(dN_num));
+                    if (dN_num == 0) {
                         dN.setEnabled(false);
                         dN.setAlpha(0.5f);
                         ToastUtil.makeText(getActivity(), "翻倍道具已达使用上限！", Toast.LENGTH_SHORT);
@@ -262,8 +279,8 @@ public class MainFragment extends Fragment {
                     break;
                 case "rN":
                     rN_num--;
-                    rN_.setText(rN_num + "");
-                    if (rN_num == 0){
+                    rN_.setText(String.valueOf(rN_num));
+                    if (rN_num == 0) {
                         rN.setEnabled(false);
                         rN.setAlpha(0.5f);
                         ToastUtil.makeText(getActivity(), "删除道具已达使用上限！", Toast.LENGTH_SHORT);
@@ -271,8 +288,8 @@ public class MainFragment extends Fragment {
                     break;
                 case "mC":
                     mC_num--;
-                    mC_.setText(mC_num + "");
-                    if (mC_num == 0){
+                    mC_.setText(String.valueOf(mC_num));
+                    if (mC_num == 0) {
                         mC.setEnabled(false);
                         mC.setAlpha(0.5f);
                         ToastUtil.makeText(getActivity(), "翻倍道具已达使用上限！", Toast.LENGTH_SHORT);
@@ -285,7 +302,7 @@ public class MainFragment extends Fragment {
             dN.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    if (dN_first){
+                    if (dN_first) {
                         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
                         builder.setTitle("道具信息")
                                 .setMessage("使用该道具可将选定位置数字翻倍。点击最右侧返回按钮退出道具使用状态。")
@@ -306,7 +323,7 @@ public class MainFragment extends Fragment {
             rN.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    if (rN_first){
+                    if (rN_first) {
                         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
                         builder.setTitle("道具信息")
                                 .setMessage("使用该道具可移除选定位置的数字。点击最右侧返回按钮退出道具使用状态。")
@@ -319,10 +336,10 @@ public class MainFragment extends Fragment {
                                 .show();
                         rN_first = false;
                     }
-                    if (gameView.canRemove()){
+                    if (gameView.canRemove()) {
                         showBorder = true;
                         curTool = "Remove";
-                    }else {
+                    } else {
                         ToastUtil.makeText(getActivity(), "至少要有两个数才能使用该道具!", Toast.LENGTH_SHORT);
                     }
 
@@ -332,7 +349,7 @@ public class MainFragment extends Fragment {
             mC.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    if (mC_first){
+                    if (mC_first) {
                         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
                         builder.setTitle("道具信息")
                                 .setMessage("使用该道具将随机打乱当前所有数字。点击最右侧返回按钮退出道具使用状态。")
@@ -346,23 +363,12 @@ public class MainFragment extends Fragment {
                                 })
                                 .show();
                         mC_first = false;
-                    }else{
+                    } else {
                         gameView.makeChaos();
                         useTool("mC");
                     }
                 }
             });
         }
-
-        private Drawable convertDrawableToGrayScale() {
-            Drawable drawable = getResources().getDrawable(R.drawable.tips_circle);
-            if (drawable == null)
-                return null;
-
-            Drawable res = drawable.mutate();
-            res.setColorFilter(Color.GRAY, PorterDuff.Mode.SRC_IN);
-            return res;
-        }
     }
-
 }

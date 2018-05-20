@@ -433,4 +433,8 @@ public class GameView extends LinearLayout {
             }
         }
     }
+
+    public void finish(){
+        DialogUtils.getAddChartDialog(context, MainFragment.getMainFragment().getScore());
+    }
 }

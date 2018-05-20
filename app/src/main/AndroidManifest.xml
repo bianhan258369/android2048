@@ -31,5 +31,4 @@
         <service android:name=".Service.BackGroundMusicService" />
 
     </application>
-
 </manifest>
