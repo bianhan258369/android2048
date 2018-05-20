@@ -1,12 +1,9 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/container"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/allBack"
-    android:orientation="vertical"
-    android:paddingLeft="20dp"
-    android:paddingRight="20dp">
+    android:orientation="vertical">
 
     <!-- vertical垂直  horizontal水平 -->
     <!-- 线性布局 -->
@@ -15,9 +12,7 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="20dp"
-        android:layout_marginTop="20dp"
-        android:baselineAligned="false"
+        android:layout_margin="20dp"
         android:orientation="horizontal">
 
         <LinearLayout
@@ -72,10 +67,10 @@
 
     <!-- 层布局 -->
 
-    <com.kaushikthedeveloper.squarelayout.SquareFrameLayout
+    <FrameLayout
         android:id="@+id/gameContainer"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_width="320dp"
+        android:layout_height="320dp"
         android:layout_gravity="center_horizontal"
         android:background="@color/gameViewBack">
 
@@ -87,123 +82,37 @@
             android:layout_height="match_parent" />
 
         <!-- 动画控件 -->
+
         <com.game.Utils.AnimLayer
             android:id="@+id/animLayer"
             android:layout_width="match_parent"
             android:layout_height="match_parent" />
 
-
-    </com.kaushikthedeveloper.squarelayout.SquareFrameLayout>
+    </FrameLayout>
 
     <LinearLayout
-        android:id="@+id/tools"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_gravity="top|center_horizontal"
-        android:layout_marginTop="20dp"
-        android:visibility="gone">
+        android:gravity="center">
 
-        <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        <Button
+            android:id="@+id/button_doubleNumber"
+            android:text="Double"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:padding="6dp">
+            android:layout_height="wrap_content" />
 
-            <ImageButton
-                android:id="@+id/button_doubleNumber"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="10dp"
-                android:layout_marginRight="10dp"
-                android:layout_marginTop="10dp"
-                android:background="@drawable/round"
-                android:src="@drawable/ic_launcher" />
-
-            <FrameLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="right">
-
-                <TextView
-                    android:id="@+id/num_doubleNumber"
-                    android:layout_width="25dp"
-                    android:layout_height="25dp"
-                    android:background="@drawable/tips_circle"
-                    android:gravity="center"
-                    android:text="3"
-                    android:textColor="@android:color/white"
-                    android:textSize="15sp"
-                    android:textStyle="bold" />
-            </FrameLayout>
-
-        </FrameLayout>
-
-        <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        <Button
+            android:id="@+id/button_removeNumber"
+            android:text="Remove"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:padding="6dp">
+            android:layout_height="wrap_content" />
 
-            <ImageButton
-                android:id="@+id/button_removeNumber"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="10dp"
-                android:layout_marginRight="10dp"
-                android:layout_marginTop="10dp"
-                android:background="@drawable/round"
-                android:src="@drawable/ic_launcher" />
-
-            <FrameLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="right">
-
-                <TextView
-                    android:id="@+id/num_removeNumber"
-                    android:layout_width="25dp"
-                    android:layout_height="25dp"
-                    android:background="@drawable/tips_circle"
-                    android:gravity="center"
-                    android:text="3"
-                    android:textColor="@android:color/white"
-                    android:textSize="15sp"
-                    android:textStyle="bold" />
-            </FrameLayout>
-
-        </FrameLayout>
-
-        <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        <Button
+            android:id="@+id/button_makeChaos"
+            android:text="Chaos"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:padding="6dp">
+            android:layout_height="wrap_content" />
 
-            <ImageButton
-                android:id="@+id/button_makeChaos"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="10dp"
-                android:layout_marginRight="10dp"
-                android:layout_marginTop="10dp"
-                android:background="@drawable/round"
-                android:src="@drawable/ic_launcher" />
-
-            <FrameLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="right">
-
-                <TextView
-                    android:id="@+id/num_makeChaos"
-                    android:layout_width="25dp"
-                    android:layout_height="25dp"
-                    android:background="@drawable/tips_circle"
-                    android:gravity="center"
-                    android:text="3"
-                    android:textColor="@android:color/white"
-                    android:textSize="15sp"
-                    android:textStyle="bold" />
-            </FrameLayout>
-
-        </FrameLayout>
     </LinearLayout>
 
 </LinearLayout>

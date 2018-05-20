@@ -18,7 +18,6 @@ import com.game.R;
 import com.game.Service.BackGroundMusicService;
 import com.game.Utils.Titanic;
 import com.game.Utils.TitanicTextView;
-import com.game.Utils.ToastUtil;
 
 import java.util.Timer;
 import java.util.TimerTask;
@@ -179,7 +178,6 @@ public class LoginActivity extends Activity implements View.OnClickListener {
                 break;
             case R.id.startPropGame:
                 next = new Intent(this,MainActivity.class);
-                next.putExtra("NeedProp", true);
                 startActivity(next);
                 finish();
                 break;
@@ -202,7 +200,7 @@ public class LoginActivity extends Activity implements View.OnClickListener {
                 return true;
             } else {
                 firsttime = System.currentTimeMillis();
-                ToastUtil.makeText(this, "再点一次退出", Toast.LENGTH_SHORT);
+                Toast.makeText(this, "再点一次退出", Toast.LENGTH_SHORT).show();
                 return false;
             }
         }

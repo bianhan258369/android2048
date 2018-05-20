@@ -6,7 +6,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
+import android.support.v7.app.ActionBarActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.TypedValue;
 import android.view.View;
@@ -25,7 +25,7 @@ import com.game.Utils.DialogUtils;
 
 import java.util.ArrayList;
 
-public class ChartsActivity extends AppCompatActivity {
+public class ChartsActivity extends ActionBarActivity {
 
     //滑动item
     private SwipeMenuListView mListView; //排行榜列表
@@ -168,7 +168,6 @@ public class ChartsActivity extends AppCompatActivity {
             int id = cursor.getInt(idIndex);
             mList.add(new Gamer(id, name, score));
         }
-        cursor.close();
     }
 
     //dp换算成px
