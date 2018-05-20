@@ -3,15 +3,16 @@ package com.game.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.SharedPreferences;
+import android.content.res.ColorStateList;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -33,6 +34,8 @@ public class MainFragment extends Fragment {
     public Tool tool;
     private View rootView;
     private String curTool = "";
+    private FloatingActionButton fab_quit_tool, fab_show_tools;
+    private LinearLayout tools_layout;
 
     public MainFragment setNeedProp(boolean needProp) {
         this.needProp = needProp;
@@ -69,14 +72,38 @@ public class MainFragment extends Fragment {
 
         animLayer = (AnimLayer) rootView.findViewById(R.id.animLayer);
 
+
+        tools_layout = rootView.findViewById(R.id.tools);
+
+        fab_quit_tool = (FloatingActionButton) rootView.findViewById(R.id.fab_quick_tool);
+
+        fab_show_tools = (FloatingActionButton) rootView.findViewById(R.id.fab_tools);
+
+        fab_quit_tool.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showBorder = false;
+                tools_layout.setVisibility(View.GONE);
+                fab_show_tools.setVisibility(View.VISIBLE);
+            }
+        });
+
+        fab_show_tools.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                fab_show_tools.setVisibility(View.GONE);
+                tools_layout.setVisibility(View.VISIBLE);
+            }
+        });
+
         if (needProp) {
-            tool = new Tool((ImageButton) rootView.findViewById(R.id.button_doubleNumber),
-                    (ImageButton) rootView.findViewById(R.id.button_removeNumber),
-                    (ImageButton) rootView.findViewById(R.id.button_makeChaos),
+            tool = new Tool((FloatingActionButton) rootView.findViewById(R.id.button_doubleNumber),
+                    (FloatingActionButton) rootView.findViewById(R.id.button_removeNumber),
+                    (FloatingActionButton) rootView.findViewById(R.id.button_makeChaos),
                     (TextView) rootView.findViewById(R.id.num_doubleNumber),
                     (TextView) rootView.findViewById(R.id.num_removeNumber),
                     (TextView) rootView.findViewById(R.id.num_makeChaos));
-            rootView.findViewById(R.id.tools).setVisibility(View.VISIBLE);
+            fab_show_tools.setVisibility(View.VISIBLE);
         }
 
         return rootView;
@@ -190,35 +217,46 @@ public class MainFragment extends Fragment {
     }
 
     class Tool {
-        ImageButton dN, rN, mC;
+        boolean dN_first = true, rN_first = true, mC_first = true;
+        FloatingActionButton dN, rN, mC;
         TextView dN_, rN_, mC_;
         int dN_num = 3, rN_num = 3, mC_num = 3;
-        Drawable enabled, disabled;
 
-        public Tool(ImageButton dN, ImageButton rN, ImageButton mC, TextView dN_, TextView rN_, TextView mC_) {
+        public Tool(FloatingActionButton dN, FloatingActionButton rN, FloatingActionButton mC, TextView dN_, TextView rN_, TextView mC_) {
             this.dN = dN;
             this.rN = rN;
             this.mC = mC;
             this.dN_ = dN_;
             this.rN_ = rN_;
             this.mC_ = mC_;
-            enabled = getResources().getDrawable(R.drawable.tips_circle);
-            disabled = convertDrawableToGrayScale();
+            dN_first = rN_first = mC_first = true;
             init();
         }
 
         public void reset(){
-
+            dN.setEnabled(true);
+            dN.setAlpha(1f);
+            rN.setEnabled(true);
+            rN.setAlpha(1f);
+            mC.setEnabled(true);
+            mC.setAlpha(1f);
+            dN_num = rN_num = mC_num = 3;
+            dN_.setText(dN_num + "");
+            rN_.setText(rN_num + "");
+            mC_.setText(mC_num + "");
+            dN_first = rN_first = mC_first = true;
         }
 
         public void useTool(String name){
+            tools_layout.setVisibility(View.GONE);
+            fab_show_tools.setVisibility(View.VISIBLE);
             switch (name){
                 case "dN":
                     dN_num--;
                     dN_.setText(dN_num + "");
                     if (dN_num == 0){
                         dN.setEnabled(false);
-                        dN.setBackground(disabled);
+                        dN.setAlpha(0.5f);
                         ToastUtil.makeText(getActivity(), "翻倍道具已达使用上限！", Toast.LENGTH_SHORT);
                     }
                     break;
@@ -227,7 +265,7 @@ public class MainFragment extends Fragment {
                     rN_.setText(rN_num + "");
                     if (rN_num == 0){
                         rN.setEnabled(false);
-                        rN.setBackground(disabled);
+                        rN.setAlpha(0.5f);
                         ToastUtil.makeText(getActivity(), "删除道具已达使用上限！", Toast.LENGTH_SHORT);
                     }
                     break;
@@ -236,7 +274,7 @@ public class MainFragment extends Fragment {
                     mC_.setText(mC_num + "");
                     if (mC_num == 0){
                         mC.setEnabled(false);
-                        mC.setBackground(disabled);
+                        mC.setAlpha(0.5f);
                         ToastUtil.makeText(getActivity(), "翻倍道具已达使用上限！", Toast.LENGTH_SHORT);
                     }
                     break;
@@ -247,6 +285,19 @@ public class MainFragment extends Fragment {
             dN.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
+                    if (dN_first){
+                        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+                        builder.setTitle("道具信息")
+                                .setMessage("使用该道具可将选定位置数字翻倍。点击最右侧返回按钮退出道具使用状态。")
+                                .setPositiveButton("我明白了", new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialog, int which) {
+                                        dialog.dismiss();
+                                    }
+                                })
+                                .show();
+                        dN_first = false;
+                    }
                     showBorder = true;
                     curTool = "Double";
                 }
@@ -255,20 +306,50 @@ public class MainFragment extends Fragment {
             rN.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
+                    if (rN_first){
+                        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+                        builder.setTitle("道具信息")
+                                .setMessage("使用该道具可移除选定位置的数字。点击最右侧返回按钮退出道具使用状态。")
+                                .setPositiveButton("我明白了", new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialog, int which) {
+                                        dialog.dismiss();
+                                    }
+                                })
+                                .show();
+                        rN_first = false;
+                    }
                     if (gameView.canRemove()){
                         showBorder = true;
                         curTool = "Remove";
                     }else {
                         ToastUtil.makeText(getActivity(), "至少要有两个数才能使用该道具!", Toast.LENGTH_SHORT);
                     }
+
                 }
             });
 
             mC.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    gameView.makeChaos();
-                    useTool("mC");
+                    if (mC_first){
+                        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+                        builder.setTitle("道具信息")
+                                .setMessage("使用该道具将随机打乱当前所有数字。点击最右侧返回按钮退出道具使用状态。")
+                                .setPositiveButton("我明白了", new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialog, int which) {
+                                        gameView.makeChaos();
+                                        useTool("mC");
+                                        dialog.dismiss();
+                                    }
+                                })
+                                .show();
+                        mC_first = false;
+                    }else{
+                        gameView.makeChaos();
+                        useTool("mC");
+                    }
                 }
             });
         }

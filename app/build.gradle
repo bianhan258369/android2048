@@ -24,6 +24,7 @@ dependencies {
     api 'com.daimajia.numberprogressbar:library:1.2@aar'
     api 'com.yalantis:contextmenu:1.0.4'
     api 'com.nineoldandroids:library:2.4.0'
+    api 'com.android.support:design:26.0.1'
     api project(':library')
     api 'com.github.kaushikthedeveloper:squarelayout:0.0.3'
 }

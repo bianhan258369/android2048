@@ -1,4 +1,5 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/container"
     android:layout_width="match_parent"
@@ -95,28 +96,38 @@
 
     </com.kaushikthedeveloper.squarelayout.SquareFrameLayout>
 
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/fab_tools"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:layout_gravity="center_horizontal"
+        android:src="@drawable/btn_magic_wand"
+        android:layout_marginBottom="6dp"
+        android:layout_marginLeft="15dp"
+        android:visibility="gone"/>
+
     <LinearLayout
         android:id="@+id/tools"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_height="65dp"
         android:layout_gravity="top|center_horizontal"
         android:layout_marginTop="20dp"
         android:visibility="gone">
 
         <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:padding="6dp">
+            android:layout_height="match_parent"
+            android:paddingTop="6dp">
 
-            <ImageButton
+            <android.support.design.widget.FloatingActionButton
                 android:id="@+id/button_doubleNumber"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="10dp"
-                android:layout_marginRight="10dp"
-                android:layout_marginTop="10dp"
-                android:background="@drawable/round"
-                android:src="@drawable/ic_launcher" />
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="15dp"
+                android:layout_marginRight="15dp"
+                android:layout_marginTop="15dp"
+                android:src="@drawable/tool_double" />
 
             <FrameLayout
                 android:layout_width="wrap_content"
@@ -139,18 +150,17 @@
 
         <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:padding="6dp">
+            android:layout_height="match_parent"
+            android:paddingTop="6dp">
 
-            <ImageButton
+            <android.support.design.widget.FloatingActionButton
                 android:id="@+id/button_removeNumber"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="10dp"
-                android:layout_marginRight="10dp"
-                android:layout_marginTop="10dp"
-                android:background="@drawable/round"
-                android:src="@drawable/ic_launcher" />
+                android:layout_marginLeft="15dp"
+                android:layout_marginRight="15dp"
+                android:layout_marginTop="15dp"
+                android:src="@drawable/tool_remove" />
 
             <FrameLayout
                 android:layout_width="wrap_content"
@@ -173,18 +183,17 @@
 
         <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:padding="6dp">
+            android:layout_height="match_parent"
+            android:paddingTop="6dp">
 
-            <ImageButton
+            <android.support.design.widget.FloatingActionButton
                 android:id="@+id/button_makeChaos"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="10dp"
-                android:layout_marginRight="10dp"
-                android:layout_marginTop="10dp"
-                android:background="@drawable/round"
-                android:src="@drawable/ic_launcher" />
+                android:layout_marginLeft="15dp"
+                android:layout_marginRight="15dp"
+                android:layout_marginTop="15dp"
+                android:src="@drawable/tool_chaos" />
 
             <FrameLayout
                 android:layout_width="wrap_content"
@@ -204,6 +213,17 @@
             </FrameLayout>
 
         </FrameLayout>
+
+        <android.support.design.widget.FloatingActionButton
+            android:id="@+id/fab_quick_tool"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="end|bottom"
+            android:layout_marginBottom="6dp"
+            android:layout_marginLeft="15dp"
+            android:layout_marginRight="3dp"
+            android:layout_marginTop="6dp"
+            android:src="@drawable/btn_quit_tool" />
     </LinearLayout>
 
 </LinearLayout>
