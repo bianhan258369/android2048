@@ -115,4 +115,10 @@
 
     </LinearLayout>
 
+    <TextView
+        android:id="@+id/timer"
+        android:layout_width="70dp"
+        android:layout_height="29dp"
+        android:text="TextView" />
+
 </LinearLayout>

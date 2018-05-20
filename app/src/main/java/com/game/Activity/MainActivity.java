@@ -11,6 +11,7 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -49,8 +50,11 @@ public class MainActivity extends ActionBarActivity implements OnMenuItemClickLi
         initToolbar();
         initMenuFragment();
         mainFragment = new MainFragment();
-        addFragment(mainFragment, true, R.id.container);
 
+        Intent i = getIntent();
+        String mode = i.getStringExtra("MODE");
+        mainFragment.setMode(mode);
+        addFragment(mainFragment, true, R.id.container);
     }
 
     @Override

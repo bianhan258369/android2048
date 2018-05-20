@@ -168,16 +168,19 @@ public class LoginActivity extends Activity implements View.OnClickListener {
             case R.id.startGame:
 //                Toast.makeText(this, "开始游戏", Toast.LENGTH_SHORT).show();
                 next = new Intent(this, MainActivity.class);
+                next.putExtra("MODE","Classic");
                 startActivity(next);
                 finish();
                 break;
             case R.id.startTimerGame:
                 next = new Intent(this,MainActivity.class);
+                next.putExtra("MODE","Timer");
                 startActivity(next);
                 finish();
                 break;
             case R.id.startPropGame:
                 next = new Intent(this,MainActivity.class);
+                next.putExtra("MODE","Prop");
                 startActivity(next);
                 finish();
                 break;

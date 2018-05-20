@@ -4,6 +4,7 @@ import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.os.CountDownTimer;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -26,6 +27,9 @@ public class MainFragment extends Fragment {
     private AnimLayer animLayer = null;
     public static final String SP_KEY_BEST_SCORE = "bestScore";
     public Tool tool;
+    public CountDownTimer countDownTimer;
+    public TextView timer;
+    String mode;
 
 
     public static MainFragment mainFragment;
@@ -58,6 +62,25 @@ public class MainFragment extends Fragment {
 
         tool = new Tool((Button) rootView.findViewById(R.id.button_doubleNumber), (Button) rootView.findViewById(R.id.button_removeNumber), (Button) rootView.findViewById(R.id.button_makeChaos));
 
+        timer = (TextView) rootView.findViewById(R.id.timer);
+        timer.setVisibility(View.INVISIBLE);
+
+        if(mode.equals("Timer")){
+            timer.setVisibility(View.VISIBLE);
+            countDownTimer = new CountDownTimer(300000,1000) {
+                @Override
+                public void onTick(long l) {
+                    timer.setText(String.valueOf(l / 1000));
+                }
+
+                @Override
+                public void onFinish() {
+                    gameView.finish();
+                }
+            };
+            countDownTimer.start();
+        }
+
         return rootView;
     }
 
@@ -76,6 +99,7 @@ public class MainFragment extends Fragment {
 
     public void startGame() {
         gameView.startGame();
+        if(mode.equals("Timer")) countDownTimer.start();
     }
 
     public void addScore(int s) {
@@ -136,6 +160,10 @@ public class MainFragment extends Fragment {
                 dialogInterface.dismiss();
             }
         }).show();
+    }
+
+    public void setMode(String mode){
+        this.mode = mode;
     }
 
     class Tool {
