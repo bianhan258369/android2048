@@ -103,10 +103,13 @@ public class MainFragment extends Fragment {
             fab_show_tools.setVisibility(View.VISIBLE);
         } else if (mode.equals("Timer")) {
             timer.setVisibility(View.VISIBLE);
-            countDownTimer = new CountDownTimer(300000, 1000) {
+            countDownTimer = new CountDownTimer(180000, 1000) {
                 @Override
                 public void onTick(long l) {
-                    timer.setText(String.valueOf(l / 1000));
+                    long timeLeft = l / 1000;
+                    String minute = String.valueOf(timeLeft / 60);
+                    String second = String.valueOf(timeLeft % 60);
+                    timer.setText(minute + " : " + second);
                 }
 
                 @Override
