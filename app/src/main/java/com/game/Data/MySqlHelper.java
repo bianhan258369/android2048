@@ -15,7 +15,7 @@ public class MySqlHelper extends SQLiteOpenHelper {
     @Override
     public void onCreate(SQLiteDatabase db) {
         //执行添加数据库语句
-        db.execSQL("create table if not exists charts ( id integer primary key, user_name varchar, user_score integer )");
+        db.execSQL("create table if not exists charts_new( id integer primary key, user_name varchar, user_score integer , mode varchar )");
     }
 
     @Override

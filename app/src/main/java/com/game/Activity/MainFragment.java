@@ -35,7 +35,7 @@ public class MainFragment extends Fragment {
 
     public CountDownTimer countDownTimer;
     public TextView timer;
-    String mode;
+    public String mode;
 
 
     public static MainFragment mainFragment;
@@ -103,7 +103,7 @@ public class MainFragment extends Fragment {
             fab_show_tools.setVisibility(View.VISIBLE);
         } else if (mode.equals("Timer")) {
             timer.setVisibility(View.VISIBLE);
-            countDownTimer = new CountDownTimer(180000, 1000) {
+            countDownTimer = new CountDownTimer(10000, 1000) {
                 @Override
                 public void onTick(long l) {
                     long timeLeft = l / 1000;

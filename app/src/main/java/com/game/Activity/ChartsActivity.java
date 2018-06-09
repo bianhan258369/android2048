@@ -6,10 +6,13 @@ import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.TypedValue;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.baoyz.swipemenulistview.SwipeMenu;
@@ -30,24 +33,40 @@ public class ChartsActivity extends AppCompatActivity {
     //滑动item
     private SwipeMenuListView mListView; //排行榜列表
     private ChartsAdapter mAdapter; //排行榜列表适配器
+    private Spinner mGameMode;//模式选择下拉单
     private ArrayList<Gamer> mList = new ArrayList<Gamer>(); //排行榜列表数据
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState); //must
         //设置页面布局
         setContentView(R.layout.activity_charts);
-        //首先将数据放进list
-        getData();
         //绑定listview
+        mGameMode = (Spinner) findViewById(R.id.gameMode);
+        mGameMode.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, final int i, long l) {
+                Handler handler = new Handler();
+                String modeSelected = getResources().getStringArray(R.array.game_mode_EN)[i];
+                getData(modeSelected);
+                if (mAdapter!=null)
+                    mAdapter.notifyDataSetChanged();
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+
+            }
+        });
+        initToolbar();
+        //开源库控件设置
         mListView = (SwipeMenuListView) findViewById(R.id.chartsListView);
         //初始化适配器
         mAdapter = new ChartsAdapter(this, mList);
         //给listview设置适配器
         mListView.setAdapter(mAdapter);
         //初始化toolbar
-        initToolbar();
-        //开源库控件设置
         SwipeMenuCreator creator = new SwipeMenuCreator() {
 
             @Override
@@ -105,7 +124,7 @@ public class ChartsActivity extends AppCompatActivity {
                         //然后获取可写数据库对象
                         SQLiteDatabase db = mySqlHelper.getWritableDatabase();
                         //在数据库中删除这条数据
-                        db.delete("charts", "id = ?", new String[]{String.valueOf(mList.get(position).getId())});
+                        db.delete("charts_new", "id = ?", new String[]{String.valueOf(mList.get(position).getId())});
                         //在当前显示的list中删除这条数据
                         mList.remove(position);
                         //更新listview
@@ -141,11 +160,12 @@ public class ChartsActivity extends AppCompatActivity {
     }
 
     //获取排行榜数据
-    private void getData() {
+    private void getData(String mode) {
         //数据库helper（上下文  数据库名称 数据库工厂 数据库版本）
         MySqlHelper sqlHelper = new MySqlHelper(this, "myapp.db", null, 1);
         //获取数据库
         final SQLiteDatabase db = sqlHelper.getWritableDatabase();
+        sqlHelper.onCreate(db);
         //查询数据
 
         /**
@@ -157,9 +177,17 @@ public class ChartsActivity extends AppCompatActivity {
          * having：相当于select语句having关键字后面的部分
          * orderBy：相当于select语句orderby关键字后面的部分
          */
+        mList.clear();
+        Cursor cursor=null;
+        try {
+             cursor= db.query("charts_new", null, "mode=\"" + mode+"\"", null, null, null, "user_score desc");//列名称  倒排序
+        }
+        catch (Exception e)
+        {
+            System.out.print(e.getMessage());
 
-        Cursor cursor = db.query("charts", null, null, null, null, null, "user_score desc");//列名称  倒排序
-        while (cursor.moveToNext()) {
+        }
+            while (cursor.moveToNext()) {
             int nameIndex = cursor.getColumnIndex("user_name");
             int scoreIndex = cursor.getColumnIndex("user_score");
             int idIndex = cursor.getColumnIndex("id");

@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="game_mode">
+        <item>标准模式</item>
+        <item>计时模式</item>
+        <item>道具模式</item>
+    </string-array>
+    <string-array name="game_mode_EN">
+        <item>Classic</item>
+        <item>Timer</item>
+        <item>Prop</item>
+    </string-array>
+</resources>
