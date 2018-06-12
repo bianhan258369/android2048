@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string-array name="game_mode">
-        <item>标准模式</item>
+        <item>经典模式</item>
         <item>计时模式</item>
         <item>道具模式</item>
     </string-array>

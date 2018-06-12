@@ -20,6 +20,7 @@ android {
 }
 
 dependencies {
+    //noinspection GradleCompatible
     api 'com.android.support:appcompat-v7:26.0.1'
     api 'com.daimajia.numberprogressbar:library:1.2@aar'
     api 'com.yalantis:contextmenu:1.0.4'
@@ -27,4 +28,17 @@ dependencies {
     api 'com.android.support:design:26.0.1'
     api project(':library')
     api 'com.github.kaushikthedeveloper:squarelayout:0.0.3'
+    api 'com.android.support:design:26.1.0'
+}
+
+configurations.all {
+
+    resolutionStrategy.eachDependency { DependencyResolveDetails details ->
+        def requested = details.requested
+        if (requested.group == 'com.android.support') {
+            if (!requested.name.startsWith("multidex")) {
+                details.useVersion '26.1.0'//默认使用的版本
+            }
+        }
+    }
 }
