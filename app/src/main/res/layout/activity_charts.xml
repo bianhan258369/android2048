@@ -6,6 +6,13 @@
 
     <include layout="@layout/toolbar" />
 
+    <Spinner
+        android:id="@+id/gameMode"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:entries="@array/game_mode"
+        />
+
     <com.baoyz.swipemenulistview.SwipeMenuListView
         android:divider="@color/grey"
         android:dividerHeight="1px"

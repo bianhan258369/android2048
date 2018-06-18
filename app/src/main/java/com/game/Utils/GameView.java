@@ -23,9 +23,10 @@ import java.util.Random;
 public class GameView extends LinearLayout {
 
     private Context context;
-
+    private String mode;
     public GameView setMainFragment(MainFragment mainFragment) {
         this.mainFragment = mainFragment;
+        mode=mainFragment.mode;
         return this;
     }
 
@@ -400,7 +401,7 @@ public class GameView extends LinearLayout {
             }
         }
 
-        DialogUtils.getAddChartDialog(context, MainFragment.getMainFragment().getScore());
+        DialogUtils.getAddChartDialog(context, MainFragment.getMainFragment().getScore(),mode);
     }
 
     public boolean canRemove() {
@@ -435,6 +436,6 @@ public class GameView extends LinearLayout {
     }
 
     public void finish(){
-        DialogUtils.getAddChartDialog(context, MainFragment.getMainFragment().getScore());
+        DialogUtils.getAddChartDialog(context, MainFragment.getMainFragment().getScore(),mode);
     }
 }

@@ -1,11 +1,13 @@
 package com.game.Utils;
 
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.ContentValues;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.database.sqlite.SQLiteDatabase;
 import android.text.Editable;
+import android.text.Layout;
 import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -22,9 +24,9 @@ import com.game.R;
  * Created by longlong on 2015/4/28.
  */
 public class DialogUtils {
-    public static void getAddChartDialog(final Context context, final int score) {
+    public static void getAddChartDialog(final Context context, final int score,final String mode) {
         AlertDialog.Builder builder = new AlertDialog.Builder(context);
-        LayoutInflater inflate = LayoutInflater.from(context);
+        final LayoutInflater inflate = LayoutInflater.from(context);
         View v = inflate.inflate(R.layout.dialog_charts, null);
         final EditText editText = (EditText) v.findViewById(R.id.et_name);
 
@@ -37,8 +39,16 @@ public class DialogUtils {
                 ContentValues values = new ContentValues();
                 values.put("user_name", editText.getText().toString());
                 values.put("user_score", score);
-                db.insert("charts", "id", values);
+
+                values.put("mode",mode);
+                try{
+                    db.insert("charts_new", "id", values);
+                } catch (Exception e)
+                {
+                    System.out.print(e.getMessage());
+                }
                 MainFragment.getMainFragment().startGame();
+
             }
         }).setNegativeButton(R.string.dialog_negative, new DialogInterface.OnClickListener() {
             @Override

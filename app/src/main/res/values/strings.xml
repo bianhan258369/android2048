@@ -13,13 +13,16 @@
     <!--菜单字符串-->
     <string name="menu_charts">我要看榜</string>
     <string name="menu_exit">退出游戏</string>
-    <string name="menu_info">关于作者</string>
+    <string name="menu_info">关于我们</string>
     <string name="menu_restart">重新开始</string>
     <string name="menu_tutorial">攻略教程</string>
 
     <!--Info 字符串 -->
-    <string name="info_name">我的名字：陈龙博</string>
-    <string name="info_mail">邮箱：b3069741@126.com</string>
+    <string name="info_group">团队成员:</string>
+    <string name="info_name1">边寒</string>
+    <string name="info_name2">张逸清</string>
+    <string name="info_name3">鲍稼耕</string>
+    <string name="info_mail"></string>
 
     <!-- dialog 字符串 -->
     <string name="dialog_hint">您的姓名</string>

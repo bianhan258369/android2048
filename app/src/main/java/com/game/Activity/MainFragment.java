@@ -5,8 +5,8 @@ import android.content.DialogInterface;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.CountDownTimer;
-import android.support.v4.app.Fragment;
 import android.support.design.widget.FloatingActionButton;
+import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -35,7 +35,8 @@ public class MainFragment extends Fragment {
 
     public CountDownTimer countDownTimer;
     public TextView timer;
-    String mode;
+    public LinearLayout timeLayout;
+    public String mode;
 
 
     public static MainFragment mainFragment;
@@ -92,6 +93,8 @@ public class MainFragment extends Fragment {
 
         timer = (TextView) rootView.findViewById(R.id.timer);
         timer.setVisibility(View.INVISIBLE);
+        timeLayout = (LinearLayout) rootView.findViewById(R.id.timeLayout);
+        timeLayout.setVisibility(View.INVISIBLE);
 
         if (mode.equals("Prop")) {
             tool = new Tool((FloatingActionButton) rootView.findViewById(R.id.button_doubleNumber),
@@ -103,10 +106,15 @@ public class MainFragment extends Fragment {
             fab_show_tools.setVisibility(View.VISIBLE);
         } else if (mode.equals("Timer")) {
             timer.setVisibility(View.VISIBLE);
-            countDownTimer = new CountDownTimer(300000, 1000) {
+            timeLayout.setVisibility(View.VISIBLE);
+            countDownTimer = new CountDownTimer(10000, 1000) {
                 @Override
                 public void onTick(long l) {
-                    timer.setText(String.valueOf(l / 1000));
+                    long timeLeft = l / 1000;
+                    String minute = String.valueOf(timeLeft / 60);
+                    String second = String.valueOf(timeLeft % 60);
+                    if(timeLeft % 60 < 10) timer.setText(minute + " : 0" + second);
+                    else timer.setText(minute + " : " + second);
                 }
 
                 @Override

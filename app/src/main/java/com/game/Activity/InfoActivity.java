@@ -34,7 +34,7 @@ public class InfoActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         //使自定义的普通View能在title栏显示
         getSupportActionBar().setDisplayShowTitleEnabled(false);
-        mToolBarTextView.setText("关于我的");
+        mToolBarTextView.setText("关于我们");
         mToolbar.setNavigationIcon(R.drawable.btn_back);
         //给返回的按钮设置点击监听
         mToolbar.setNavigationOnClickListener(new View.OnClickListener() {
