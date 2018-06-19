@@ -29,6 +29,7 @@ public class LoginActivity extends Activity implements View.OnClickListener {
     private long firsttime; // 监听两次返回
     private Intent i;  //绑定监听service
     private BackGroundMusicService musicService;
+    private static boolean first = true;
 
     //监听当前页面是否在运行
     private ServiceConnection conn = new ServiceConnection() {
@@ -109,16 +110,25 @@ public class LoginActivity extends Activity implements View.OnClickListener {
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
-
                         //一次加载几个百分比
-                        bnp.incrementProgressBy(1);
-                        counter++;
-                        //当进度条到达100时候进度条结束加载
-                        if (counter == 100) {
-                            //设置progress样式
-                            bnp.setProgress(0);
-                            counter = 0;
-                            //隐藏进度条   显示按钮
+                        if(first){
+                            bnp.incrementProgressBy(1);
+                            counter++;
+                            //当进度条到达100时候进度条结束加载
+                            if (counter == 100) {
+                                //设置progress样式
+                                bnp.setProgress(0);
+                                counter = 0;
+                                //隐藏进度条   显示按钮
+                                bnp.setVisibility(View.INVISIBLE);
+                                mTvStartCharts.setVisibility(View.VISIBLE);
+                                mTvStartGame.setVisibility(View.VISIBLE);
+                                mTvStartTimerGame.setVisibility(View.VISIBLE);
+                                mTvStartPropGame.setVisibility(View.VISIBLE);
+                                first = false;
+                            }
+                        }
+                        else{
                             bnp.setVisibility(View.INVISIBLE);
                             mTvStartCharts.setVisibility(View.VISIBLE);
                             mTvStartGame.setVisibility(View.VISIBLE);
@@ -128,7 +138,7 @@ public class LoginActivity extends Activity implements View.OnClickListener {
                     }
                 });
             }
-        }, 500, 50);
+        }, 0, 50);
     }
 
     @Override
@@ -136,29 +146,29 @@ public class LoginActivity extends Activity implements View.OnClickListener {
         super.onPause();
 
         //解绑服务
-//        unbindService(conn);
-//
-//        //停止服务
-//        stopService(i);
+        unbindService(conn);
+
+        //停止服务
+        stopService(i);
     }
 
     @Override
     protected void onResume() {
         super.onResume();
 
-//        //绑定service
-//        bindService(i, conn, Context.BIND_AUTO_CREATE);
-//
-//        //开始service
-//        startService(i);
+        //绑定service
+        bindService(i, conn, Context.BIND_AUTO_CREATE);
+
+        //开始service
+        startService(i);
     }
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
 
-//        //停掉 服务
-//        stopService(i);
+        //停掉 服务
+        stopService(i);
     }
 
     //点击监听
