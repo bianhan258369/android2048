@@ -58,10 +58,10 @@ public class LoginActivity extends Activity implements View.OnClickListener {
         //初始化一个intent（传递 谁  启动  谁）
         i = new Intent(this, BackGroundMusicService.class);
         setContentView(R.layout.activity_login);
-//        //打开服务
-//        startService(i);
-//        //绑定服务
-//        bindService(i, conn, Context.BIND_AUTO_CREATE);
+        //打开服务
+        startService(i);
+        //绑定服务
+        bindService(i, conn, Context.BIND_AUTO_CREATE);
 
         //两个动画按钮
         final TitanicTextView mTvStartGame = (TitanicTextView) findViewById(R.id.startGame);
@@ -76,10 +76,10 @@ public class LoginActivity extends Activity implements View.OnClickListener {
         mTvStartPropGame.setOnClickListener(this);
 
         //先隐藏了
-//        mTvStartGame.setVisibility(View.INVISIBLE);
-//        mTvStartCharts.setVisibility(View.INVISIBLE);
-//        mTvStartTimerGame.setVisibility(View.INVISIBLE);
-//        mTvStartPropGame.setVisibility(View.INVISIBLE);
+        mTvStartGame.setVisibility(View.INVISIBLE);
+        mTvStartCharts.setVisibility(View.INVISIBLE);
+        mTvStartTimerGame.setVisibility(View.INVISIBLE);
+        mTvStartPropGame.setVisibility(View.INVISIBLE);
 
         //开启动画
 
@@ -94,41 +94,41 @@ public class LoginActivity extends Activity implements View.OnClickListener {
         Titanic startPropGameAnim = new Titanic();
         startPropGameAnim.start(mTvStartPropGame);
 
-//        //进度条
-//        final ProgressBar bnp = (ProgressBar) findViewById(R.id.progress_bar);
-//
-//        //开始加载
-//        counter = 0;
-//        timer = new Timer();
-//
-//        //进度条线程
-//        timer.schedule(new TimerTask() {
-//            //重写线程的run方法
-//            @Override
-//            public void run() {
-//                runOnUiThread(new Runnable() {
-//                    @Override
-//                    public void run() {
-//
-//                        //一次加载几个百分比
-//                        bnp.incrementProgressBy(1);
-//                        counter++;
-//                        //当进度条到达100时候进度条结束加载
-//                        if (counter == 100) {
-//                            //设置progress样式
-//                            bnp.setProgress(0);
-//                            counter = 0;
-//                            //隐藏进度条   显示按钮
-//                            bnp.setVisibility(View.INVISIBLE);
-//                            mTvStartCharts.setVisibility(View.VISIBLE);
-//                            mTvStartGame.setVisibility(View.VISIBLE);
-//                            mTvStartTimerGame.setVisibility(View.VISIBLE);
-//                            mTvStartPropGame.setVisibility(View.VISIBLE);
-//                        }
-//                    }
-//                });
-//            }
-//        }, 500, 50);
+        //进度条
+        final ProgressBar bnp = (ProgressBar) findViewById(R.id.progress_bar);
+
+        //开始加载
+        counter = 0;
+        timer = new Timer();
+
+        //进度条线程
+        timer.schedule(new TimerTask() {
+            //重写线程的run方法
+            @Override
+            public void run() {
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+
+                        //一次加载几个百分比
+                        bnp.incrementProgressBy(1);
+                        counter++;
+                        //当进度条到达100时候进度条结束加载
+                        if (counter == 100) {
+                            //设置progress样式
+                            bnp.setProgress(0);
+                            counter = 0;
+                            //隐藏进度条   显示按钮
+                            bnp.setVisibility(View.INVISIBLE);
+                            mTvStartCharts.setVisibility(View.VISIBLE);
+                            mTvStartGame.setVisibility(View.VISIBLE);
+                            mTvStartTimerGame.setVisibility(View.VISIBLE);
+                            mTvStartPropGame.setVisibility(View.VISIBLE);
+                        }
+                    }
+                });
+            }
+        }, 500, 50);
     }
 
     @Override
