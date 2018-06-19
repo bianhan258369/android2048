@@ -1,8 +1,5 @@
 package com.game.Model;
 
-/**
- * Created by longlong on 2015/4/27.
- */
 public class Gamer {
 
     private int id;

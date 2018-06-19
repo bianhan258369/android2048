@@ -30,7 +30,7 @@ public class WebHelpActivity extends AppCompatActivity {
         setContentView(R.layout.activity_help);
         init();
         loadurl(wv,
-                "http://jingyan.baidu.com/article/e4511cf309d9842b845eafc7.html");
+                "http://jingyan.baidu.com/article/91f5db1b3aed851c7f05e3e3.html");
     }
 
     public void init() {

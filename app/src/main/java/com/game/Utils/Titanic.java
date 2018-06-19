@@ -7,13 +7,6 @@ import android.animation.ValueAnimator;
 import android.os.Build;
 import android.view.animation.LinearInterpolator;
 
-/**
- * 水波纹动画TextView
- * Titanic
- * User: romainpiel
- * Date: 14/03/2014
- * Time: 09:34
- */
 public class Titanic {
 
     private AnimatorSet animatorSet;

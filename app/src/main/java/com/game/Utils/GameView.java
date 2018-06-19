@@ -383,7 +383,7 @@ public class GameView extends LinearLayout {
     }
 
     //检查是否完成
-    private void checkComplete() {
+    public void checkComplete() {
 
         boolean complete = true;
 

@@ -16,7 +16,6 @@ public class SplashActivity extends FragmentActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash);
 
-        //线程开启器
         mHandler = new Handler();
         //延时两秒 开启下面的gotoLogin线程
         mHandler.postDelayed(gotoLoginAct, 2000);

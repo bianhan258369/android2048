@@ -304,6 +304,7 @@ public class MainFragment extends Fragment {
                     }
                     break;
             }
+            gameView.checkComplete();
         }
 
         private void init() {
@@ -358,22 +359,48 @@ public class MainFragment extends Fragment {
                 @Override
                 public void onClick(View view) {
                     if (mC_first) {
-                        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+                        final AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
                         builder.setTitle("道具信息")
                                 .setMessage("使用该道具将随机打乱当前所有数字。点击最右侧返回按钮退出道具使用状态。")
                                 .setPositiveButton("我明白了", new DialogInterface.OnClickListener() {
                                     @Override
                                     public void onClick(DialogInterface dialog, int which) {
-                                        gameView.makeChaos();
-                                        useTool("mC");
+                                        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+                                        builder.setTitle("确认使用")
+                                                .setMessage(("确认使用随机重拍道具吗？"))
+                                                .setPositiveButton("是", new DialogInterface.OnClickListener() {
+                                                    @Override
+                                                    public void onClick(DialogInterface dialog, int which) {
+                                                        gameView.makeChaos();
+                                                        useTool("mC");
+                                                    }
+                                                }).setNegativeButton("取消", new DialogInterface.OnClickListener() {
+                                            @Override
+                                            public void onClick(DialogInterface dialog, int which) {
+                                                dialog.dismiss();
+                                            }
+                                        }).show();
                                         dialog.dismiss();
                                     }
                                 })
                                 .show();
                         mC_first = false;
                     } else {
-                        gameView.makeChaos();
-                        useTool("mC");
+                        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+                        builder.setTitle("确认使用")
+                                .setMessage(("确认使用随机重拍道具吗？"))
+                                .setPositiveButton("是", new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialog, int which) {
+                                        gameView.makeChaos();
+                                        useTool("mC");
+                                    }
+                                }).setNegativeButton("取消", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                dialog.dismiss();
+                            }
+                        }).show();
                     }
                 }
             });

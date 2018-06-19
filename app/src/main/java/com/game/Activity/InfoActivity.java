@@ -8,9 +8,6 @@ import android.widget.TextView;
 
 import com.game.R;
 
-/**
- * Created by longlong on 2015/4/27.
- */
 public class InfoActivity extends AppCompatActivity {
 
     @Override
@@ -40,7 +37,6 @@ public class InfoActivity extends AppCompatActivity {
         mToolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //此函数系统原有  使用结束当前页面
                 onBackPressed();
             }
         });

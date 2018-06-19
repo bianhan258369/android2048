@@ -20,9 +20,6 @@ import com.game.Data.MySqlHelper;
 import com.game.Model.Gamer;
 import com.game.R;
 
-/**
- * Created by longlong on 2015/4/28.
- */
 public class DialogUtils {
     public static void getAddChartDialog(final Context context, final int score,final String mode) {
         AlertDialog.Builder builder = new AlertDialog.Builder(context);

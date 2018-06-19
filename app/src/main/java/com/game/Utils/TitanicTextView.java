@@ -14,12 +14,6 @@ import android.widget.TextView;
 
 import com.game.R;
 
-/**
- * 水波纹动画TextView
- * Titanic
- * romainpiel
- * 13/03/2014
- */
 public class TitanicTextView extends AppCompatTextView {
 
     public interface AnimationSetupCallback {

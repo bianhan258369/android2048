@@ -98,22 +98,6 @@ public class AnimLayer extends FrameLayout {
 	public void createScaleTo1(Card target) {
 
         //扩散动画实体
-
-//        fromX：起始X坐标上的伸缩尺寸。
-//
-//        toX：结束X坐标上的伸缩尺寸。
-//
-//        fromY：起始Y坐标上的伸缩尺寸。
-//
-//        toY：结束Y坐标上的伸缩尺寸。
-//
-//        pivotXType：X轴的伸缩模式，可以取值为ABSOLUTE、RELATIVE_TO_SELF、RELATIVE_TO_PARENT。
-//
-//        pivotXValue：X坐标的伸缩值。
-//
-//        pivotYType：Y轴的伸缩模式，可以取值为ABSOLUTE、RELATIVE_TO_SELF、RELATIVE_TO_PARENT。
-//
-//        pivotYValue：Y坐标的伸缩值。
 		ScaleAnimation sa = new ScaleAnimation(0.1f, 1, 0.1f, 1,
 				Animation.RELATIVE_TO_SELF, 0.5f, Animation.RELATIVE_TO_SELF,
 				0.5f);
