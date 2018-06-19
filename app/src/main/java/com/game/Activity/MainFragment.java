@@ -300,7 +300,7 @@ public class MainFragment extends Fragment {
                     if (mC_num == 0) {
                         mC.setEnabled(false);
                         mC.setAlpha(0.5f);
-                        ToastUtil.makeText(getActivity(), "翻倍道具已达使用上限！", Toast.LENGTH_SHORT);
+                        ToastUtil.makeText(getActivity(), "打乱道具已达使用上限！", Toast.LENGTH_SHORT);
                     }
                     break;
             }
